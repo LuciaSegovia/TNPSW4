@@ -202,9 +202,51 @@ We exclude the fresh dried fish because it did not match the description, and du
 
 809; DRIED/SALTED/CANNED FISH AND SEAFOOD (INCL. DAGAA)
 
-We exclude the fresh dried fish because it did not match the description, and due to ambiguity of the name.
+We exclude the fresh dried fish because it did not match the description, and due to ambiguity of the name. In v.2.0.1, we excluded canned fish because it was included in the "package food" () in the questionnaire. 
 
-We have not included smoked and other preserved seafoods should be included here. For example: "Other preserved or processed fish and seafood and fish and seafood preparations".
+
+```{r}
+
+NPSDSS_code <- "809"
+# food <- "dried|salt|can|tin"
+food <- "dried|salt"
+group_code <- "^113"
+code <- c("113305")
+
+subset(hbs_nct, grepl(food, food_desc, ignore.case = T) &  # Selecting food w/i a food group
+         grepl(group_code, food_id)) %>% 
+  separate_rows(dict_testsample_code) %>%  #Getting indiv. dict. codes
+  add_count(food_id) %>%                  #Counting indiv. dict. codes per food id.
+  filter(!food_id %in% code) %>%  #Removing foods (by food_id)
+   mutate(N = (n/nn),                            # Getting HH per food id.
+         wt = N/sum(N),              # Getting weights for each food (contribution to total of that category)
+         itemcode = NPSDSS_code) %>% print()
+
+```
+
+We have not included smoked and other preserved seafood should be included here. For example: "Other preserved or processed fish and seafood and fish and seafood preparations".
+
+810; PACKAGE FISH
+
+```{r}
+
+NPSDSS_code <- "810"
+# food <- "dried|salt|can|tin"
+food <- "can|tin"
+group_code <- "^113"
+# code <- c("113305")
+
+subset(hbs_nct, grepl(food, food_desc, ignore.case = T) &  # Selecting food w/i a food group
+         grepl(group_code, food_id)) %>% 
+  separate_rows(dict_testsample_code) %>%  #Getting indiv. dict. codes
+  add_count(food_id) %>%                  #Counting indiv. dict. codes per food id.
+  filter(!food_id %in% code) %>%  #Removing foods (by food_id)
+   mutate(N = (n/nn),                            # Getting HH per food id.
+         wt = N/sum(N),              # Getting weights for each food (contribution to total of that category)
+         itemcode = NPSDSS_code) %>% print()
+
+```
+
 
 110; BUNS, CAKES AND BISCUITS
 
@@ -464,7 +506,7 @@ Need clarification and consumed by small no. of HHs.
 
 1103; OTHER RAW MATERIALS FOR DRINKS
 
-810; PACKAGE FISH
+
 
 
 ##### Output

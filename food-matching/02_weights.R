@@ -17,16 +17,17 @@ library(tidyr)
 
 # HBS18 cleaned
 # This finds the most recent version of the HBS18
-file <-  sort(grep("hbs18-tznct-weights", list.files(here::here("inter-output")),
+file <-  sort(grep("hbs18-tznct-weights", list.files(here::here("food-matching", "inter-output")),
                            value = TRUE), decreasing = TRUE)[1]
-hbs_nct <- readRDS(here::here("inter-output", file))
+hbs_nct <- readRDS(here::here("food-matching","inter-output", file))
 names(hbs_nct)
 
 # TZ HCES W4 food list
-food_consumed <- readRDS(here::here("inter-output", "tz-hces-w4_food-list_v.1.0.0.rds"))
+food_consumed <- readRDS(here::here("food-matching", "inter-output",
+                                    "tz-hces-w4_food-list_v.1.0.0.rds"))
 
 # Food dictionary
-dictionary.df <- readRDS(here::here("metadata", "dictionary.df.rds"))
+dictionary.df <- readRDS(here::here("food-matching","metadata", "dictionary.df.rds"))
 
 # Multiple matches & weights ----
 
@@ -707,7 +708,7 @@ output_df %>% filter(is.na(ID_3))
 
 # Adding manually values for the missing & fixing other ----
 
-# Other raw materials (NA), package fish (NA)
+# Other raw materials (NA)
 # Sweets, Wheat and barley & Wine and spirits
 #output_df$ID_3[output_df$itemcode == "302"] <- "23670.01.01, F0666.01"
 #output_df$wt[output_df$itemcode == "302"] <- 1/2
@@ -715,6 +716,10 @@ output_df %>% filter(is.na(ID_3))
 #output_df$wt[output_df$itemcode == "1082"] <- 0.5
 output_df$ID_3[output_df$itemcode == "1108"] <- "24212.02.01, 24212.02.02, 2413.01"
 output_df$wt[output_df$itemcode == "1108"] <- 1/3
+
+# package fish (810) (inc. canned) ----
+output_df$ID_3[output_df$itemcode == "810"] <- "1532.01, 1532.02, 1532.04"
+output_df$wt[output_df$itemcode == "810"] <- 1/3
 
 # Fixing codes: Maize
 output_df$ID_3[output_df$itemcode == "105"] <- c("23120.03.02, 23120.03.01, 23120.03.03")
@@ -817,6 +822,6 @@ sum(output_df$Wt[output_df$item_id == "1001"])
 # View(output_df)
 
 # Writing food dict matches 
-write.csv(output_df, here::here("inter-output", "tz_food-matches_v.2.0.0.csv"), 
+write.csv(output_df, here::here("inter-output", "tz_food-matches_v.2.0.1.csv"), 
           row.names = FALSE)
 
