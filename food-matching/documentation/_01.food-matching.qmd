@@ -90,7 +90,7 @@ Single food matches are those foods that are easily identifiable and have a one-
 807; EGGS; 231.01 --> This one needs to be checked, maybe we need to include 
 other animals eggs, i.e. duck, quail, etc. Although according to BHS18, only one HH reported the use of "other eggs".
 
-704; SUGARCANE; 1802.01
+704; SUGARCANE; 1802.01 --> changed to sugar cane juice (1802.02)
 
 103; MAIZE (GREEN, COB); 1290.01.01
 

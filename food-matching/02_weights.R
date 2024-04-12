@@ -447,7 +447,6 @@ food <- "butter|margarine|ghee|fat"
 group_code <- "^115"
 code <- c("115202")
 
-
 NPSDSS_code_list[[length(NPSDSS_code_list)+1]] <- NPSDSS_code
 food_list[[length(food_list)+1]] <- food
 group_code_list[[length(group_code_list)+1]] <- group_code
@@ -458,7 +457,6 @@ NPSDSS_code <- "112"
 food <- "flour"
 group_code <- "^111"
 code <- c("111504", "111506", "111510", "111508")
-
 
 NPSDSS_code_list[[length(NPSDSS_code_list)+1]] <- NPSDSS_code
 food_list[[length(food_list)+1]] <- food
@@ -688,9 +686,10 @@ dictionary.df %>% filter(grepl("fish", FoodName_2, ignore.case = TRUE))
 food <- output_df %>% filter(is.na(ID_3)) %>% pull(itemcode)
 output_df %>% filter(itemcode %in% food) %>% select(itemcode, item_desc, perc)
 
-# Getting the dict ids (ID_3) for those above.
+# Single matches -----
+# Getting the dict ids (ID_3) for those above. 
 dict_list <- c("1699.02", "23161.02.01", "1620.01", "1520.01.01", "1313.01", "1510.01", 
-               "1312.01", "231.01", "1802.01", "1290.01.01",  "24310.04.01", 
+               "1312.01", "231.01", "1802.02", "1290.01.01",  "24310.04.01", 
                 "24310.01.01", NA, NA, NA)
 dictionary.df %>% filter(ID_3 %in% dict_list) %>% select(ID_3, FoodName_3)
 
@@ -822,6 +821,6 @@ sum(output_df$Wt[output_df$item_id == "1001"])
 # View(output_df)
 
 # Writing food dict matches 
-write.csv(output_df, here::here("inter-output", "tz_food-matches_v.2.0.1.csv"), 
+write.csv(output_df, here::here("food-matching", "inter-output", "tz_food-matches_v.2.0.1.csv"), 
           row.names = FALSE)
 
